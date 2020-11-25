@@ -66,7 +66,7 @@ maldives  mall  mojave  moon  room  seoul  street  street2  surface  tokyostreet
 + User can add their own wallpapers.
 + 17[+](https://github.com/adi1090x/files/tree/master/dynamic-wallpaper/wallpapers) different types of wallpaper set (HD, UHD).
 + (Currently) Change according to time, throughout the day.
-+ Tested on - **WM:** *Openbox*, *i3wm*, *bspwm*, *awesomewm*, *Fluxbox*, *Fvwm*, *Swaywm* & **DE:** *KDE(neon)*, *Pantheon*, *Gnome(ubuntu, pop)*, *Deepin*, *Cinnamon*, *XFCE*, *LXDE*, *MATE*.
++ Tested on - **WM:** *Openbox*, *i3wm*, *bspwm*, *awesomewm*, *Fluxbox*, *Fvwm*, *Swaywm* & **DE:** *KDE(neon)*, *Pantheon*, *Gnome(ubuntu, pop_os)*, *Deepin*, *Cinnamon*, *XFCE*, *LXDE*, *MATE*.
 
 ### How to add own wallpapers
 
@@ -114,6 +114,32 @@ In terminal, *xfconf-query* will print lines starting with `set:`, which show wh
 57   fi
 
 ```
+
+3. **Autostart** : If you want to autostart the script with desktop, you can add it to your WM autostart file & if doesn't work for you, you can create a `desktop file` in `$HOME/.config/autostart` dir.
+```bash
+$ cd $HOME/.config/autostart && touch dwall.desktop
+
+# Add this to dwall.desktop file
+
+[Desktop Entry]
+Name=Dynamic Wallpaper
+Comment=Simple script, shows a Dynamic Wallpaper based on TIME.
+Exec=/usr/bin/dwall -s firewatch &
+Type=Application
+Icon=wallpaper
+Categories=Accessories;
+```
+
+4. **Cronjob** : If you want to run it with cron, you may need to define these environment variables, 
+
++ SHELL
++ DISPLAY
++ DESKTOP_SESSION
++ XDG_RUNTIME_DIR
++ XDG_DATA_DIRS
++ DBUS_SESSION_BUS_ADDRESS
+
+> You can find what values your environment has by typing `env` in your terminal or check each variable via `echo $VARIABLE_NAME`.
 
 ### Support This Project
 <p align="left">

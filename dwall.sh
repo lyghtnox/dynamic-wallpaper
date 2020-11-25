@@ -72,7 +72,7 @@ case "$OSTYPE" in
 				SETTER="pcmanfm --set-wallpaper";
             elif [[ "$DESKTOP_SESSION" =~ ^(/usr/share/xsessions/plasma|NEON|Neon|neon|PLASMA|Plasma|plasma|KDE|Kde|kde)$ ]]; then 
 				SETTER=setkde;
-			elif [[ "$DESKTOP_SESSION" =~ ^(PANTHEON|Pantheon|pantheon|GNOME|Gnome|gnome|UBUNTU|Ubuntu|ubuntu|DEEPIN|Deepin|deepin|POP|Pop|pop)$ ]]; then 
+			elif [[ "$DESKTOP_SESSION" =~ ^(PANTHEON|Pantheon|pantheon|GNOME|Gnome|gnome|Gnome-xorg|gnome-xorg|UBUNTU|Ubuntu|ubuntu|DEEPIN|Deepin|deepin|POP|Pop|pop)$ ]]; then 
 				SETTER="gsettings set org.gnome.desktop.background picture-uri";
 			else 
 				SETTER="feh --bg-scale"; 
@@ -89,7 +89,7 @@ case "$OSTYPE" in
 				SETTER="pcmanfm --set-wallpaper";
             elif [[ "$DESKTOP_SESSION" =~ ^(/usr/share/xsessions/plasma|NEON|Neon|neon|PLASMA|Plasma|plasma|KDE|Kde|kde)$ ]]; then 
 				SETTER=setkde;
-			elif [[ "$DESKTOP_SESSION" =~ ^(PANTHEON|Pantheon|pantheon|GNOME|Gnome|gnome|UBUNTU|Ubuntu|ubuntu|DEEPIN|Deepin|deepin|POP|Pop|pop)$ ]]; then 
+			elif [[ "$DESKTOP_SESSION" =~ ^(PANTHEON|Pantheon|pantheon|GNOME|Gnome|gnome|Gnome-xorg|gnome-xorg|UBUNTU|Ubuntu|ubuntu|DEEPIN|Deepin|deepin|POP|Pop|pop)$ ]]; then 
 				SETTER="gsettings set org.gnome.desktop.background picture-uri";
 			else 
 				SETTER="feh --bg-scale"; 
@@ -143,6 +143,7 @@ usage() {
 init() {
 	if [ "$RUN_ONCE" == "true" ]; then
 		main;
+		reset_color;
 		exit 0;
     fi
     while true; do
@@ -155,6 +156,11 @@ is_valid_style() {
     for i in "${available_styles[@]}"; do
         [ "$i" == "$1" ] && STYLE=$(echo "$1")
     done
+}
+
+reset_color() {
+	tput sgr0 # reset attributes
+	tput op # reset color
 }
 
 is_valid_style "$1"
@@ -170,14 +176,17 @@ while getopts ":s:o:h" opt; do
 		;;
     h )
 		usage
+		reset_color
 		exit 0
 		;;
     \?)
 		echo -e $R"Unknown option,$G run dwall -h"
+		reset_color
 		exit 1
 		;;
     : )
 		echo -e $R"Invalid:$G -$OPTARG$R requires an argument."
+		reset_color
 		exit 1
 		;;
   esac
@@ -187,4 +196,5 @@ if [ "$STYLE" ]; then
     init
 else
 	usage
+	reset_color
 fi
